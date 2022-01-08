@@ -1,0 +1,699 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600&family=Nunito:wght@200;300;400;500&display=swap');
+
+* {
+    font-family: 'Nunito', sans-serif;
+    margin: 0; padding: 0;
+    box-sizing: border-box;
+    outline: none; border: none;
+    text-decoration: none;
+    transition: all 0.2s linear;
+}
+
+// Khai báo các biến
+$blue: #0097e6;
+$black: #000;
+$white: #fff;
+$light-color: #aaa;
+$light-bg: #0a0a0a;
+$border: .1rem solid rgba(255,255,255,.2);
+
+
+// Các hàm trong sass
+// Hàm tạo tiêu đề
+@mixin title-text($titleVal) {
+    font-size: $titleVal;
+    color: $white;
+    text-transform: capitalize;
+}
+
+// Hàm tạo văn bản
+@mixin graph-text($graphVal) {
+    font-size: $graphVal;
+    color: $light-color;
+    line-height: 2;
+    padding: 1.5rem 0;
+}
+
+// Hàm tạo danh mục products
+@mixin grid($val) {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax($val, 1fr));
+    gap: 2rem;
+}
+
+// Định nghĩa các thuộc tính như cỡ chữ, thanh cuộn
+html {
+    font-size: 62.5%;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    scroll-padding-top: 8rem; // 1rem = 16px
+
+    &::-webkit-scrollbar {
+        width: 1rem;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: $black;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: $blue;
+    }
+}
+
+body {
+    overflow-x: hidden;
+    background: $black;
+}
+
+section {
+    padding: 3rem 9%;
+}
+
+.btn {
+    display: inline-block; // Hiển thị trên 1 dòng và có thể set width, height, margin, padding
+    margin-top: 1rem;
+    padding: 1rem 3rem;
+    background: $blue;
+    color: $white;
+    cursor: pointer;
+    font-size: 1.8rem;
+
+    &:hover {
+        background: $white;
+        color: $black;
+    }
+}
+
+.heading {
+    @include title-text(3rem);
+    text-align: center;
+    padding-bottom: 3rem;
+    text-transform: uppercase;
+
+    span {
+        color: $blue;
+    }
+}
+
+/*-------------HEADER-------------*/ 
+.header {
+    position: fixed; // vị trí cố định
+    top: 0; left: 0; right: 0; // Căn trên, trái và phải
+    z-index: 1000; // z-index càng cao thì element đó đứng trước và hiện chồng lên trên cùng
+    background: $black;
+    padding: 1.5rem 9%;
+    display: flex; // flex: sắp xếp các khối theo thứ tự
+    align-items: center;
+    justify-content: space-between; // tách các khối bởi 1 khoảng rộng bằng nhau
+    border-bottom: $border;
+    transform: translateY(-20rem);
+
+    &.active {
+        transform: translateY(0rem);
+
+    }
+
+    .logo {
+        @include title-text(2.5rem);
+    }
+
+    .navbar {
+
+        a {
+            @include title-text(2rem);
+            margin: 0 1.5rem;
+
+            &:hover {
+                color: $blue;
+            }
+        }
+    }
+
+    .icons div,
+    .icons a {
+        height: 4.5rem;
+        width: 4.5rem;
+        line-height: 4.5rem;
+        font-size: 2rem;
+        background: $white;
+        color: $black;
+        margin-left: .5rem;
+        text-align: center;
+        cursor: pointer;
+
+        &:hover {
+            background: $blue;
+            color: $white;
+        }
+    }
+
+    #menu-btn {
+        display: none;
+    }
+
+    .search-form {
+        position: absolute; // định vị trí tuyệt đối cho  các thành phần theo thành phần bao bên ngoài hoặc ít nhất là cửa sổ trình duyệt
+        top: 99%; left: 0; right: 0;
+        background: $black;
+        display: flex;
+        align-items: center;
+        padding: 0 9%;
+        border-top: $border;
+        border-bottom: $border;
+        height: 6rem;
+        gap: 1rem; // khoảng cách giữa các hàng và cột
+        clip-path: polygon(0 0, 100% 0, 100% 0, 0 0); // https://bennettfeely.com/clippy/
+
+        &.active {
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        }
+
+        input {
+            width: 100%;
+            background: none;
+            color: $white;
+            font-size: 1.8rem;
+        }
+
+        label {
+            font-size: 2.5rem;
+            cursor: pointer;
+            color: $white;
+
+            &:hover {
+                color: $blue;
+            }
+        }
+    }
+}
+
+.home {
+    position: relative; // Định vị trí tuyệt đối cho các thành phần, không gây ảnh hưởng tới vị trí ban đầu hay các thành phần khác
+    overflow: hidden; // Khi chiều cao của box không đủ chứa text, thì text bị tràn sẽ được dấu đi.
+    height: 100vh;
+    background: url(../images/home-bg.jpg) no-repeat;
+    background-size: cover;
+    background-position: cover;
+    background-attachment: fixed;
+
+    .tree {
+        position: absolute;
+        bottom: 0; left: 0;
+        height: 20rem;
+        width: 100%;
+        object-fit: cover;
+        z-index: 10;
+    }
+
+    .mountain {
+        position: absolute;
+        bottom: 0; left: 0;
+        height: 40rem;
+        width: 100%;
+        object-fit: cover;
+        z-index: 5;
+    }
+
+    .moon {
+        position: absolute;
+        top: 20rem; left: 50%;
+        transform: translateX(-50%);
+        width: 30vw;
+        z-index: 1;
+    }
+
+    .cloud-1 {
+        position: absolute;
+        top: 20rem; left: 0;
+        width: 60vw;
+        z-index: 2;
+    }
+
+    .cloud-2 {
+        position: absolute;
+        top: 5rem; right: 0;
+        width: 60vw;
+    }
+
+    .content {
+        position: absolute;
+        bottom: 0rem; left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        text-align: center;
+        z-index: 3;
+        
+        p {
+            @include title-text(3rem);
+            text-transform: uppercase;
+            text-shadow: 0 .5rem 1rem rgba(0, 0, 0, .7);
+        }
+
+        h3 {
+            @include title-text(10rem);
+            text-transform: uppercase;
+            text-shadow: 0 .5rem 1rem rgba(0, 0, 0, .7);
+        }
+    }
+
+    &::before {
+        content: '';
+        position: absolute;
+        bottom: 0; left: 0;
+        width: 100%;
+        height: 5rem;
+        background: linear-gradient(transparent, $black);
+        z-index: 12;
+    }
+}
+
+.about {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 3rem;
+
+    .image {
+        flex: 1 1 42rem;
+
+        img {
+            width: 100%;
+        }
+    }
+
+    .content {
+        flex: 1 1 42rem;
+
+        span {
+            font-size: 2rem;
+            color: $blue;
+        }
+
+        h3 {
+            @include title-text(3rem);
+            padding-top: 1.5rem;
+        }
+
+        p {
+            @include graph-text(1.6rem);
+        }
+    }
+}
+
+.products {
+
+    .box-container {
+        @include grid(31rem);
+
+        .box {
+            text-align: center;
+
+            &:hover .image {
+                
+                img {
+                    transform: scale(1.1); // Xác định một biến đổi tỷ lệ, 2D. (Hiểu đơn giản là zoom 1 element với 1 tỉ lệ nhất định)
+                }
+
+                .icons {
+                    transform: translateY(0); // transform: thể hiện các chuyển động của các element
+                }
+            }
+
+            .image {
+                height: 30rem;
+                position: relative;
+                overflow: hidden;
+
+                img {
+                    height: 100%;
+                }
+
+                .icons {
+                    position: absolute;
+                    top: 0; left: 0;
+                    height: 100%;
+                    width: 100%;
+                    background: rgba(0, 0, 0, .7);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;       
+                    gap: .5rem;
+                    transform: translateY(-100%); // Xác định một dịch chuyển 2D theo trục Y.
+                    
+                    a {
+                        height: 5rem;
+                        width: 5rem;
+                        line-height: 5rem;
+                        font-size: 2rem;
+                        background: $white;
+                        color: $black;
+
+                        &:hover {
+                            background: $blue;
+                            color: $white;
+                        }
+                    }
+                }
+            }
+
+            .content {
+                padding: 1.5rem 0;
+
+                .stars {
+                    padding-bottom: .5rem;
+
+                    i {
+                        font-size: 1.7rem;
+                        color: $blue;
+                    }
+                }
+
+                h3 {
+                    padding: 1rem 0;
+                    @include title-text(2rem);
+                }
+
+                .price {
+                    font-size: 2rem;
+                    color: $white;
+
+                    span {
+                        color: $light-color;
+                        font-size: 1.5rem;
+                        text-decoration: line-through;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.services {
+
+    .box-container {
+        @include grid(31rem);
+
+        .box {
+            text-align: center;
+            padding: 3rem;
+
+            &:nth-child(even) {
+                background: $light-bg;
+                border-radius: .5rem;
+            }
+
+            &:hover i {
+                transform: translateY(-1rem);
+            }
+
+            i {
+                height: 6rem;
+                width: 6rem;
+                line-height: 6rem;
+                border-radius: 50%;
+                font-size: 2rem;
+                color: $white;
+                background: $blue;
+                margin-bottom: 1rem;
+            }
+
+            h3 {
+                @include title-text(2rem);
+            }
+
+            p {
+                @include graph-text(1.6rem);
+                padding-bottom: 0;
+            }
+        }
+    }
+}
+
+.gallery {
+
+    .box-container {
+        columns: 25rem 3;
+        gap: 1.5rem;
+
+        img {
+            width: 100%;
+            border-radius: .5rem;
+            margin-bottom: 1.5rem;
+        }
+    }
+}
+
+.contact {
+
+    form {
+        margin: 1rem auto;
+        max-width: 60rem;
+        text-align: center;
+
+        h3 {
+            @include title-text(3rem);
+            margin-bottom: 1rem;
+        }
+
+        .box {
+            width: 100%;
+            padding: 1.5rem 0;
+            border-bottom: $border;
+            margin-bottom: 1rem;
+            color: $white;
+            background: none;
+            font-size: 1.6rem;
+             
+            &:focus {
+                border-color: $blue;
+            }
+        }
+
+        textarea {
+            height: 15rem;
+            resize: none;
+        }
+    }
+}
+
+.blogs {
+
+    .box-container {
+        @include grid(31rem);
+
+        .box {
+            text-align: center;
+
+            &:hover {
+                .images img {
+                    transform: scale(1.1); // Note: zoom ảnh giữ nguyên khung
+                }
+            }
+
+            .images {
+                height: 30rem;
+                overflow: hidden;
+
+                img {
+                    height: 100%;
+                    width: 100%;
+                    object-fit: cover;
+                }
+            }
+
+            .content {
+                padding-top: 2rem;
+
+                h3 {
+                    @include title-text(2rem);
+                }
+
+                p {
+                    @include graph-text(1.6rem);
+                    padding: 2rem;
+                }
+
+                .icons {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    padding: 2rem;
+                    background-color: $light-bg;
+                    margin-top: 2rem;
+
+                    a {
+                        font-size: 1.6rem;
+                        color: $white;
+
+                        i {
+                            color: $blue;
+                            padding-right: .5rem;
+                        }
+
+                        &:hover {
+                            color: $blue;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+// media queries
+
+@media (max-width:1200px) {
+
+    .header {
+        padding: 1.5rem 2rem;
+    }
+
+    section {
+        padding: 3rem 2rem;
+    }
+
+}
+
+@media (max-width:991px) {
+
+    html {
+        font-size: 55%;
+    }
+
+    .header {
+        
+        #menu-btn {
+            display: inline-block;
+        }
+
+        .navbar {
+            position: absolute;
+            top: 99%; left: 0; right: 0;
+            background: $black;
+            border-top: $border;
+            border-bottom: $border;
+            clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+
+            &.active {
+                clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+            }
+
+            a {
+                display: block;
+                margin: 2rem;
+            }
+        }
+    }
+
+    .home {
+
+        .cloud-1 {
+            top: 10%
+        }
+
+        .moon {
+            width: 20rem;
+            z-index: 0;
+        }
+
+        .content {
+
+            p {
+                font-size: 2rem;
+            }
+
+            h3 {
+                font-size: 3rem;
+            }
+        }
+    }
+
+}
+
+.footer {
+    background-color: $light-bg;
+
+    .box-container {
+        @include grid(25rem);
+
+        .box {
+
+            h3 {
+                @include title-text(2.2rem);
+                padding-bottom: 2rem;
+            }
+
+            .link {
+                display: block;
+                color: $light-color;
+                padding: 1rem 0;
+                font-size: 1.5rem;
+
+                i {
+                    color: $blue;
+                    padding-right: .5rem;
+                }
+
+                &:hover {
+                    color: $blue;
+
+                    i {
+                        padding-right: 2rem;
+                    }
+                }
+            }
+
+            .email {
+                width: 100%;
+                padding: 1.2rem 1.4rem;
+                border: $border;
+                color: $white;
+                margin: 1rem 0;
+                background: none;
+                font-size: 1.6rem;
+            }
+
+            .share {
+                margin-top: 2rem;
+
+                a {
+                    height: 4.5rem;
+                    width: 4.5rem;
+                    line-height: 4.5rem;
+                    font-size: 2rem;
+                    background-color: white;
+                    color: $black;
+                    text-align: center;
+
+                    &:hover {
+                        color: $white;
+                        background-color: $blue;
+
+                    }
+                }
+            }
+        }
+    }
+
+    .credit {
+        text-align: center;
+        @include title-text(2rem);
+        padding-top: 2rem;
+        margin-top: 3rem;
+        border-top: $border;
+
+        span {
+            color: $blue;
+        }
+    }
+}
+
+@media (max-width:450px) {
+
+    html {
+        font-size: 50%;
+    }
+
+}
